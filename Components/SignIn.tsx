@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import axios from "axios";
 
@@ -8,7 +8,7 @@ function Signin() {
   const [responseMessage, setResponseMessage] = useState(" ");
 
   // Handle form submission
-  const handleSubmit = async (e:Event) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       // Send a POST request to the API using Axios
