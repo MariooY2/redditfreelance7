@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
+import ErrorModal from "./Modal";
 
 function Signin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [responseMessage, setResponseMessage] = useState(" ");
+  const [responseMessage, setResponseMessage] = useState(""); // Store the response message
+  const [showModal, setShowModal] = useState(false); // Control modal visibility
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -18,14 +20,22 @@ function Signin() {
         password: String(password),
       });
 
-      // Handle successful login response
       setResponseMessage(response.data.msg);
+      if (responseMessage != "OK") {
+        setShowModal(true);
+      }
+
       console.log("Login successful:", response);
     } catch (error) {
       // Handle error
       console.error("Login failed:", error);
       setResponseMessage("Login failed. Please check your credentials.");
+      setShowModal(true);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
   };
 
   return (
@@ -74,31 +84,6 @@ function Signin() {
                     onChange={(e) => setPassword(e.target.value)} // Update state when input changes
                   />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-start">
-                    {/*
-                    <div className="flex items-center h-5">
-                      <input
-                        id="remember"
-                        type="checkbox"
-                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                  
-                      />
-                    </div>
-                    <label
-                      htmlFor="remember"
-                      className="ml-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Remember me
-                    </label>*/}
-                  </div>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-green-600 hover:underline dark:text-primary-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
                 <button
                   type="submit"
                   className="w-full bg-green-500 text-white bg-primary-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -106,15 +91,14 @@ function Signin() {
                   Sign in
                 </button>
               </form>
-              {responseMessage && (
-                <p className="mt-4 text-center text-sm text-red-600 dark:text-red-400">
-                  {responseMessage}
-                </p>
-              )}
             </div>
           </div>
         </div>
       </section>
+      {/* Modal shows only if there's an error */}
+      {showModal && (
+        <ErrorModal message={responseMessage} onClose={handleCloseModal} />
+      )}
     </div>
   );
 }
