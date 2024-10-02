@@ -21,7 +21,7 @@ function Signin() {
       });
 
       setResponseMessage(response.data.msg);
-      if (responseMessage != "OK") {
+      if (String(response.data.msg) != "OK") {
         setShowModal(true);
       }
 
