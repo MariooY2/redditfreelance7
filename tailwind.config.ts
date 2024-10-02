@@ -1,19 +1,12 @@
-import type { Config } from "tailwindcss";
-
-const config: Config = {
+module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx}", // If you use the "pages" directory
+    "./components/**/*.{js,ts,jsx,tsx}", // If you have a "components" directory
+    "./app/**/*.{js,ts,jsx,tsx}", // If using Next.js app directory (optional)
+    "./src/**/*.{js,ts,jsx,tsx}", // If you use src directory
   ],
   theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };
-export default config;
